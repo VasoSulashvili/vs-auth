@@ -30,7 +30,8 @@ class VSAuthServiceProvider extends ServiceProvider
 
     protected function registerMiddleware()
     {
-        // Register the middleware into Laravel's global middleware stack
+
         $this->app['router']->aliasMiddleware('vs-auth.client.auth', VSAuthClientMiddleware::class);
+
     }
 }

@@ -21,6 +21,10 @@ class AuthService
     }
 
 
+    /**
+     * @param array $data
+     * @return Authenticatable
+     */
     public function register(array $data): Authenticatable
     {
         $user = $this->repository->register($data);
@@ -29,6 +33,12 @@ class AuthService
     }
 
 
+    /**
+     * @param $guard
+     * @param array $data
+     * @return Authenticatable
+     * @throws APIException
+     */
     public function login($guard, array $data): Authenticatable
     {
         $model = config('auth.providers.' . $guard . '.model');
@@ -50,12 +60,21 @@ class AuthService
     }
 
 
+    /**
+     * @param Authenticatable $user
+     * @return bool
+     */
     public function logout(Authenticatable $user): bool
     {
         return (bool) $user->tokens()->delete();
     }
 
 
+    /**
+     * @param Authenticatable $user
+     * @param array $scopes
+     * @return string|null
+     */
     public function createPersonalAccessToken(Authenticatable $user, array $scopes = []): null|string
     {
         $user->tokens()->delete();
@@ -63,6 +82,28 @@ class AuthService
             config('vs-auth.personal_access_client_name'),
             $scopes
         )->accessToken;
+    }
+
+
+    /**
+     * @param Authenticatable $user
+     * @param string $oldPassword
+     * @param string $password
+     * @param string $passwordConfirmation
+     * @return Authenticatable
+     * @throws APIException
+     */
+    public function updatePassword(Authenticatable $user, string $oldPassword, string $password, string $passwordConfirmation): Authenticatable
+    {
+        if(!Hash::check($oldPassword, $user->password)) {
+            throw new APIException('Old password is wrong', 403);
+        }
+        if($password !== $passwordConfirmation) {
+            throw new APIException('New password and repeat password are not same', 403);
+        }
+        $user->update(['password' => Hash::make($password)]);
+
+        return $user;
     }
 
 }
