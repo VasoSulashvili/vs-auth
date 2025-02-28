@@ -20,14 +20,16 @@ class AuthService
         $this->repository = new AuthRepository($model);
     }
 
-    public function register(array $data)
+
+    public function register(array $data): Authenticatable
     {
         $user = $this->repository->register($data);
 
         return $user;
     }
 
-    public function login($guard, array $data)
+
+    public function login($guard, array $data): Authenticatable
     {
         $model = config('auth.providers.' . $guard . '.model');
 
@@ -47,7 +49,14 @@ class AuthService
         }
     }
 
-    public function createPersonalAccessToken(Authenticatable $user, array $scopes = [])
+
+    public function logout(Authenticatable $user): bool
+    {
+        return (bool) $user->tokens()->delete();
+    }
+
+
+    public function createPersonalAccessToken(Authenticatable $user, array $scopes = []): null|string
     {
         $user->tokens()->delete();
         return $user->createToken(
@@ -55,7 +64,5 @@ class AuthService
             $scopes
         )->accessToken;
     }
-
-
 
 }
