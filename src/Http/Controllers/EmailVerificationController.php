@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace VS\Auth\Http\Controllers;
 
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use VS\Base\Classes\API;
 use VS\Base\Exceptions\APIException;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Verified;
 
 
@@ -48,15 +45,17 @@ abstract class EmailVerificationController extends Controller
         return API::response(status: true, message: 'Email verified successfully.', code: 200, );
     }
 
+
+
     // Resend verification email
     public function resend(Request $request)
     {
         if ($request->user($this->guard)->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email already verified.']);
+            throw new APIException('Email already verified.', 403);
         }
 
         $request->user($this->guard)->sendEmailVerificationNotification();
 
-        return response()->json(['message' => 'Verification link sent.']);
+        return API::response(status: true, message: 'Verification link sent.', code: 200);
     }
 }
