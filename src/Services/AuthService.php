@@ -45,6 +45,7 @@ class AuthService
 
         if($model) {
             $user = $model::where('email', $data['email'])->first();
+
             if($user) {
                 if(Hash::check($data['password'], $user->password)) {
                     return $user;
@@ -78,10 +79,8 @@ class AuthService
     public function createPersonalAccessToken(Authenticatable $user, array $scopes = []): null|string
     {
         $user->tokens()->delete();
-        return $user->createToken(
-            config('vs-auth.personal_access_client_name'),
-            $scopes
-        )->accessToken;
+
+        return $user->createToken(config('vs-auth.personal_access_client_name'), $scopes)->accessToken;
     }
 
 
@@ -96,11 +95,16 @@ class AuthService
     public function updatePassword(Authenticatable $user, string $oldPassword, string $password, string $passwordConfirmation): Authenticatable
     {
         if(!Hash::check($oldPassword, $user->password)) {
+
             throw new APIException('Old password is wrong', 403);
+
         }
         if($password !== $passwordConfirmation) {
+
             throw new APIException('New password and repeat password are not same', 403);
+
         }
+
         $user->update(['password' => Hash::make($password)]);
 
         return $user;
