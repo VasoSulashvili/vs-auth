@@ -89,31 +89,4 @@ class AuthService
     }
 
 
-
-    /**
-     * @param Authenticatable $user
-     * @param string $oldPassword
-     * @param string $password
-     * @param string $passwordConfirmation
-     * @return Authenticatable
-     * @throws APIException
-     */
-    public function updatePassword(Authenticatable $user, string $oldPassword, string $password, string $passwordConfirmation): Authenticatable
-    {
-        if(!Hash::check($oldPassword, $user->password)) {
-
-            throw new APIException('Old password is wrong', 403);
-
-        }
-        if($password !== $passwordConfirmation) {
-
-            throw new APIException('New password and repeat password are not same', 403);
-
-        }
-
-        $user->update(['password' => Hash::make($password)]);
-
-        return $user;
-    }
-
 }

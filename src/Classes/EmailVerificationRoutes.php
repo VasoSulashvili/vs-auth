@@ -8,7 +8,7 @@ use VS\Base\Exceptions\APIException;
 
 class EmailVerificationRoutes
 {
-    public static function make(string $controller, string $guard, string $prefix = null)
+    public static function make(string $controller, string $guard, null|string $prefix = null)
     {
         if(!class_exists($controller)) {
             throw new APIException('Controller not found.');
