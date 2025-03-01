@@ -21,6 +21,7 @@ class AuthService
     }
 
 
+
     /**
      * @param array $data
      * @return Authenticatable
@@ -33,21 +34,23 @@ class AuthService
     }
 
 
+
     /**
      * @param $guard
-     * @param array $data
+     * @param array $credentials
      * @return Authenticatable
      * @throws APIException
      */
-    public function login($guard, array $data): Authenticatable
+    public function login($guard, array $credentials): Authenticatable
     {
         $model = config('auth.providers.' . $guard . '.model');
 
         if($model) {
-            $user = $model::where('email', $data['email'])->first();
+
+            $user = $model::where('email', $credentials['email'])->first();
 
             if($user) {
-                if(Hash::check($data['password'], $user->password)) {
+                if(Hash::check($credentials['password'], $user->password)) {
                     return $user;
                 } else {
                     throw new APIException('Wrong password', 404);
@@ -61,6 +64,7 @@ class AuthService
     }
 
 
+
     /**
      * @param Authenticatable $user
      * @return bool
@@ -69,6 +73,7 @@ class AuthService
     {
         return (bool) $user->tokens()->delete();
     }
+
 
 
     /**
@@ -82,6 +87,7 @@ class AuthService
 
         return $user->createToken(config('vs-auth.personal_access_client_name'), $scopes)->accessToken;
     }
+
 
 
     /**

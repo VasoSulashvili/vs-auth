@@ -8,6 +8,8 @@ use Illuminate\Support\ServiceProvider;
 use VS\Admin\Http\Middleware\AdminAuth;
 use VS\Auth\Http\Middleware\VSAuthClientMiddleware;
 use Laravel\Passport\Http\Middleware\CheckClientCredentials;
+use VS\Auth\Http\Middleware\VSEmailIsVerified;
+
 class VSAuthServiceProvider extends ServiceProvider
 {
     /**
@@ -38,6 +40,7 @@ class VSAuthServiceProvider extends ServiceProvider
     {
 
         $this->app['router']->aliasMiddleware('vs-auth.client.auth', VSAuthClientMiddleware::class);
+        $this->app['router']->aliasMiddleware('vs-auth.verified', VSEmailIsVerified::class);
 
     }
 }
