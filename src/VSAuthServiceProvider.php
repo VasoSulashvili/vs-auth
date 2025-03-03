@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
 use Illuminate\Support\ServiceProvider;
 use VS\Admin\Http\Middleware\AdminAuth;
+use VS\Auth\Enums\TwoFAScope;
+use VS\Auth\Http\Middleware\TwoFAVerifyMiddleware;
 use VS\Auth\Http\Middleware\VSAuthClientMiddleware;
 use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 use VS\Auth\Http\Middleware\VSEmailIsVerified;
@@ -25,6 +27,10 @@ class VSAuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Passport::tokensCan([
+            TwoFAScope::TwoFAVerified->value => 'Two Factor Authentication Verified',
+        ]);
+
         $this->registerMiddleware();
 
         Passport::hashClientSecrets();
@@ -43,6 +49,7 @@ class VSAuthServiceProvider extends ServiceProvider
 
         $this->app['router']->aliasMiddleware('vs-auth.client.auth', VSAuthClientMiddleware::class);
         $this->app['router']->aliasMiddleware('vs-auth.verified', VSEmailIsVerified::class);
+        $this->app['router']->aliasMiddleware('vs-auth.two.fa.verify', TwoFAVerifyMiddleware::class);
 
     }
 }

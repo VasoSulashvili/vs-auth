@@ -43,10 +43,12 @@ class AuthService
      */
     public function login($guard, array $credentials): Authenticatable
     {
+        // Get the model for the guard
         $model = config('auth.providers.' . $guard . '.model');
 
         if($model) {
 
+            // Check if the user exists
             $user = $model::where('email', $credentials['email'])->first();
 
             if($user) {
