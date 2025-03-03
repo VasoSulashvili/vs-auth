@@ -6,6 +6,7 @@ namespace VS\Auth\Services;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use VS\Auth\Enums\TwoFAType;
 use VS\Base\Exceptions\APIException;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
@@ -36,13 +37,19 @@ class OTPService
             throw new APIException('Invalid action.');
         }
 
+        // Deactivate all previous same OTPs
+        OTP::where('otpable_id', $otpable->id)
+            ->where('otpable_type', get_class($otpable))
+            ->where('action', $action)
+            ->update(['status' => OTPStatus::UNVERIFIED->value]);
+
         // Create OTP
         $otp = OTP::create([
             'pin' => $pin,
             'otpable_id' => $otpable->id,
             'otpable_type' => get_class($otpable),
             'action' => $action,
-            'status' => OTPStatus::VALID->name,
+            'status' => OTPStatus::VALID->value,
             'expires_at' => now()->addMinutes(5)
         ]);
 
@@ -95,6 +102,40 @@ class OTPService
     }
 
 
+    public function toggleTwoFa(Model $otpable, string|TwoFAType $twoFAType, int|null $pin = null) : bool
+    {
+        if (!in_array('two_fa_type', $otpable->getFillable())) {
+            throw new APIException('Invalid model.');
+        }
+
+        if (is_string($twoFAType) && TwoFAType::tryFrom($twoFAType)) {
+            $twoFAType = TwoFAType::tryFrom($twoFAType);
+        } else {
+            throw new APIException('Invalid two factor authentication type.');
+        }
+
+        // IF 2FA is already enabled, disable it
+        if ($twoFAType === TwoFAType::NONE) {
+            $otpable->two_fa_type = TwoFAType::NONE->value;
+            return $otpable->save();
+        } else {
+            // IF 2FA is not enabled, enable it
+            if (!$pin || !is_int($pin)) {
+                throw new APIException('Pin is required.');
+            } else {
+                // Verify pin
+                if ($this->verifyPin($otpable, $pin, OTPAction::ENABLE_2FA)) {
+                    $otpable->two_fa_type = $twoFAType->value;
+                    return $otpable->save();
+                } else {
+                    throw new APIException('Invalid pin.');
+                }
+            }
+        }
+    }
+
+
+
     public function verifyPin(Authenticatable $otpable, int $pin, string|OTPAction $action) : bool
     {
         if (!is_int($pin)) {
@@ -102,7 +143,7 @@ class OTPService
         }
 
         $action = is_string($action) ? OTPAction::tryFrom($action) : $action->value;
-        if ($action) {
+        if (!$action) {
             throw new APIException('Invalid action.');
         }
 
@@ -116,7 +157,7 @@ class OTPService
             ->first();
 
         if ($otp) {
-            $otp->status = OTPStatus::USED->value;
+            $otp->status = OTPStatus::VERIFIED->value;
             $otp->save();
             return true;
         }

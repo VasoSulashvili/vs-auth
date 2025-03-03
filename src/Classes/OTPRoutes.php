@@ -20,14 +20,15 @@ class OTPRoutes
             function () use ($controller, $guard) {
 
                 // Guest Routes
-                Route::group(['middleware' => ['vs-auth.client.auth']], function () use ($controller) {
-//                    Route::post('pin/send/email', [$controller, 'sendViaEmail'])->name('pin.send.email');
-//                    Route::post('login', [$controller, 'login'])->name('login');
-                });
+//                Route::group(['middleware' => ['vs-auth.client.auth']], function () use ($controller) {
+////                    Route::post('pin/send/email', [$controller, 'sendViaEmail'])->name('pin.send.email');
+////                    Route::post('login', [$controller, 'login'])->name('login');
+//                });
 
                 // Authenticated Routes
                 Route::group(['middleware' => ['auth:' . $guard, 'vs-auth.verified:' . $guard]], function () use ($controller) {
-                    Route::post('pin/send/email/{email}', [$controller, 'send'])->name('pin.send');
+                    Route::post('pin/send/', [$controller, 'send'])->name('pin.send');
+                    Route::post('two/fa/toggle', [$controller, 'toggleTwoFA'])->name('2.fa.toggle');
                 });
         });
 
