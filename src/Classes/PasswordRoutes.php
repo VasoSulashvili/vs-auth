@@ -2,7 +2,6 @@
 
 namespace VS\Auth\Classes;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use VS\Base\Exceptions\APIException;
 
@@ -25,11 +24,7 @@ class PasswordRoutes
                 Route::group(['middleware' => ['vs-auth.client.auth']], function () use ($controller) {
                     Route::post('password/reset/{token}', [$controller, 'reset'])->name('password.reset');
                 });
-
-                // Authenticated Routes
-                Route::group(['middleware' => ['auth:' . $guard, 'vs-auth.verified:' . $guard]], function () use ($controller) {
-//                    Route::post('logout', [$controller, 'logout'])->name('logout');
-                });
+                
         });
 
     }

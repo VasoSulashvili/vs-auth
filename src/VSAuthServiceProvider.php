@@ -30,6 +30,8 @@ class VSAuthServiceProvider extends ServiceProvider
         Passport::hashClientSecrets();
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 //        Route::prefix('api/admin')
 //            ->middleware('api')
 //            ->group(__DIR__ . '/../routes/api.php');

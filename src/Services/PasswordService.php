@@ -50,13 +50,11 @@ class PasswordService
 
 
     /**
-     * @param string $guard
      * @param string $email
      * @param string $broker
-     * @param string $routeName
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function sendResetLinkEmail(string $guard, string $email, string $broker, string $routeName)
+    public function sendResetLinkEmail(string $email, string $broker)
     {
         $status = Password::broker($broker)->sendResetLink(
             ['email' => $email],

@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
+
+//\VS\Auth\Classes\OTPRoutes::make()
+
 //Route::get('/email/verify', function () {
 //    return view('auth.verify-email');
 //})->middleware('auth:admin')->name('verification.notice');
