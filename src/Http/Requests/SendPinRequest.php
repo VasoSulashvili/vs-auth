@@ -4,9 +4,8 @@ namespace VS\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
+use VS\Auth\Classes\TwoFA\OTPChannel;
 use VS\Auth\Enums\OTPAction;
-use VS\Auth\Enums\OTPChannel;
 use VS\Base\Traits\HasRequestValidation;
 
 class SendPinRequest extends FormRequest

@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('otpable');
             $table->integer('pin',);
-            $table->string('status')->default(\VS\Auth\Enums\OTPStatus::VALID)->index();
-            $table->string('action')->index();
+            $table->string('status')->default(\VS\Auth\Classes\TwoFA\OTPStatus::VALID)->index();
             $table->timestamp('expires_at');
             $table->timestamps();
         });

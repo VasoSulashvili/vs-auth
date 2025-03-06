@@ -1,12 +1,11 @@
 <?php
 
-namespace VS\Auth\Enums;
+namespace VS\Auth\Classes\TwoFA;
 
 enum OTPStatus: string
 {
     case VALID = 'valid';
     case VERIFIED = 'verified';
-    case EXPIRED = 'expired';
-    case UNVERIFIED = 'unverified';
+    case DISABLED = 'disabled';
 
 }

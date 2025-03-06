@@ -11,8 +11,7 @@ class OTP extends Model
         'otpable_type',
         'pin',
         'status',
-        'expires_at',
-        'action'
+        'expires_at'
     ];
 
     protected $dates = [

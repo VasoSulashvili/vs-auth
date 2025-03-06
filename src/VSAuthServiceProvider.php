@@ -28,6 +28,7 @@ class VSAuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Passport::tokensCan([
+            // 2-Factor Authentication
             TwoFAScope::TwoFAVerified->value => 'Two Factor Authentication Verified',
         ]);
 
@@ -50,6 +51,7 @@ class VSAuthServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('vs-auth.client.auth', VSAuthClientMiddleware::class);
         $this->app['router']->aliasMiddleware('vs-auth.verified', VSEmailIsVerified::class);
         $this->app['router']->aliasMiddleware('vs-auth.two.fa.verify', TwoFAVerifyMiddleware::class);
+        $this->app['router']->aliasMiddleware('2fa', \PragmaRX\Google2FALaravel\Middleware::class,);
 
     }
 }

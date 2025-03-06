@@ -6,15 +6,15 @@ namespace VS\Auth\Services;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-use VS\Auth\Enums\TwoFAType;
-use VS\Base\Exceptions\APIException;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
-use VS\Auth\Enums\OTPChannel;
-use VS\Auth\Enums\OTPStatus;
+use Illuminate\Support\Facades\Mail;
+use VS\Auth\Classes\TwoFA\OTPChannel;
+use VS\Auth\Classes\TwoFA\OTPStatus;
 use VS\Auth\Enums\OTPAction;
+use VS\Auth\Enums\TwoFAType;
 use VS\Auth\Mail\SendPin;
 use VS\Auth\Models\OTP;
+use VS\Base\Exceptions\APIException;
 
 
 class OTPService

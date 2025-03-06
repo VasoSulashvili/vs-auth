@@ -16,14 +16,17 @@
     ],
     "autoload": {
         "psr-4": {
-            "VS\\Auth\\": "src/"
+            "VS\\Auth\\": "src/",
+            "VS\\Auth\\Tests\\": "tests/"
         },
         "files": [
         ]
     },
     "require": {
         "laravel/passport": "^12.4",
-        "vs/base": "dev-master"
+        "vs/base": "dev-master",
+        "bacon/bacon-qr-code": "^3.0",
+        "pragmarx/google2fa-laravel": "^2.3"
     },
     "extra": {
         "laravel": {
