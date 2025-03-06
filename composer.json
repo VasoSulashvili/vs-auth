@@ -16,8 +16,8 @@
     ],
     "repositories": [
         {
-            "type": "path",
-            "url": "vs-packages/vs-base"
+            "type": "vcs",
+            "url": "https://github.com/VasoSulashvili/vs-base.git"
         }
     ],
     "autoload": {
