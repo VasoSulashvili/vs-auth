@@ -1,6 +1,6 @@
 <?php
 
-namespace VS\Auth\Tests\Feature;
+namespace VS\Auth\Tests;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
