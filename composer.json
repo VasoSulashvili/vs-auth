@@ -14,6 +14,12 @@
             "email": "v.sulashvili@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "vs-packages/vs-base"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "VS\\Auth\\": "src/",
