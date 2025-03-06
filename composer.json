@@ -34,6 +34,10 @@
         "bacon/bacon-qr-code": "^3.0",
         "pragmarx/google2fa-laravel": "^2.3"
     },
+    "require-dev": {
+        "orchestra/testbench": "^10.1",
+        "phpunit/phpunit": "^11.5.3"
+    },
     "extra": {
         "laravel": {
             "providers": [
