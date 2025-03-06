@@ -3,7 +3,8 @@
 namespace VS\Auth\Tests;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+//use Tests\TestCase;
+use VS\Auth\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
