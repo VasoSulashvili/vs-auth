@@ -13,17 +13,19 @@ class VSAuthServiceProvider extends ServiceProvider
 
     public function register()
     {
-//        $this->merge(realpath(__DIR__ . '/../../configs/vs-auth-driver.php'), config_path('auth.php'), 'guards');
-
         $this->mergeDeepConfigFromPath(
             'auth',
             __DIR__ . '/../../configs/vs-auth-driver.php'
         );
-
     }
 
     public function boot()
     {
+        // Load Routes
+        $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
+
+        // Load Migrations
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
     }
 

@@ -4,7 +4,7 @@ namespace VSAuth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Person;
-use VSAuth\Http\Requests\StorePersonRequest;
+use VSAuth\Http\Requests\RegisterPersonRequest;
 use VSAuth\Http\Requests\UpdatePersonRequest;
 
 class PersonController extends Controller
@@ -28,7 +28,7 @@ class PersonController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePersonRequest $request)
+    public function store(RegisterPersonRequest $request)
     {
         //
     }
