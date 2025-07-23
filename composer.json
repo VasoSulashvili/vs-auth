@@ -1,0 +1,39 @@
+{
+    "name": "vs/vs-auth",
+    "description": "API package for authentication and more.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vaso Sulashvili",
+            "email": "v.sulashvili@gmail.com",
+            "homepage": "https://github.com/VasoSulashvili"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "illuminate/support": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "VSAuth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "VSAuth\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VSAuth\\Providers\\VSAuthServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
