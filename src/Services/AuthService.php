@@ -5,11 +5,12 @@ namespace VSAuth\Services;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use VSAuth\Http\Requests\RegisterPersonRequest;
+use VSAuth\Repositories\AuthRepositoryInterface;
 
 class AuthService
 {
 
-    public function __construct(protected Authenticatable $provider)
+    public function __construct(protected AuthRepositoryInterface $provider)
     {
 
     }
